@@ -1,31 +1,49 @@
-import { FlatList, Text, View, StyleSheet, Pressable } from "react-native";
-import cart from "../data/cart";
-import CartListItem from "../components/CartListItem";
-{/*краще поставити це в папку components */}
-const ShoppingCartTotals = () => (
+import {
+  Text,
+  View,
+  StyleSheet,
+  FlatList,
+  Pressable,
+} from 'react-native';
+
+import { useSelector } from 'react-redux';
+import {
+  selectSubtotal,
+  selectDeliveryPrice,
+  selectTotal
+} from '../store/cartSlice';
+import CartListItem from '../components/CartListItem';
+
+const ShoppingCartTotals = () => {
+  const subtotal = useSelector(selectSubtotal); 
+  const deliveryPrice = useSelector(selectDeliveryPrice);
+  const total = useSelector(selectTotal);
+
+  return (
     <View style={styles.totalsContainer}>
-            <View style={styles.row}>
-              <Text style={styles.text}>Subtotal</Text>
-              <Text style={styles.text}>$value</Text>
-            </View>
+      <View style={styles.row}>
+        <Text style={styles.text}>Subtotal</Text>
+        <Text style={styles.text}>{subtotal} US$</Text>
+      </View>
 
-            <View style={styles.row}>
-              <Text style={styles.text}>Delivery</Text>
-              <Text style={styles.text}>$value</Text>
-            </View>
+      <View style={styles.row}>
+        <Text style={styles.text}>Delivery</Text>
+        <Text style={styles.text}>{deliveryPrice} US$</Text>
+      </View>
 
-            <View style={styles.row}>
-              <Text style={styles.textBold}>Total</Text>
-              <Text style={styles.textBold}>$value</Text>
-            </View>
-          </View>
-)
-{/*до цього кінця*/}
+      <View style={styles.row}>
+        <Text style={styles.textBold}>Total</Text>
+        <Text style={styles.textBold}>{total} US$</Text>
+      </View>
+    </View>
+  );
+};
 const ShoppingCart = () => {
+  const cartItems = useSelector((state) => state.cart.items);
   return (
     <>
       <FlatList
-        data={cart}
+        data={cartItems}
         renderItem={({ item }) => <CartListItem cartItem={item} />}
         ListFooterComponent={ShoppingCartTotals} 
       />
@@ -54,21 +72,6 @@ const styles = StyleSheet.create({
     color: "gray",
   },
   textBold: {
-    fontSize: 18,
-    fontWeight: "500",
-  },
-  button: {
-    position: "absolute",
-    backgroundColor: "black",
-    bottom: 30,
-    width: "90%",
-    alignSelf: "center",
-    padding: 20,
-    borderRadius: 100,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "white",
     fontSize: 18,
     fontWeight: "500",
   },

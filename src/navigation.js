@@ -5,10 +5,13 @@ import ShoppingCart from "./screens/ShoppingCart";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Pressable, StyleSheet, Text } from "react-native";
 import { FontAwesome5 } from '@expo/vector-icons';
+import { useSelector } from "react-redux";
+import { selectNumberOfItems } from "./store/cartSlice";
 
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
+    const numberOfItems = useSelector(selectNumberOfItems);
     return (
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ contentStyle: { backgroundColor: 'white' } }}>
@@ -17,12 +20,15 @@ const Navigation = () => {
                         headerRight: () => (
                             <Pressable onPress={() => navigation.navigate('ShoppingCart')} style={styles.cartIcon}>
                                 <FontAwesome5 name="shopping-cart" size={24} color="black" />
+                                <Text style={styles.text}>{numberOfItems}</Text>
                             </Pressable>
                         )
                     })}
                 />
-                <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
-                <Stack.Screen name="Cart" component={ShoppingCart} />
+                <Stack.Screen name="ProductDetails" component={ProductDetailsScreen}
+                options={{presentation: 'modal'}}
+                />
+                <Stack.Screen name="ShoppingCart" component={ShoppingCart} />
             </Stack.Navigator>
         </NavigationContainer>
     );

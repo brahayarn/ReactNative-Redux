@@ -9,17 +9,8 @@ export default function App() {
     <Provider 
     store={store}
     >
-    <View style={styles.container}>
       <Navigation />
       <StatusBar style="auto" />
-    </View>
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-
-});
